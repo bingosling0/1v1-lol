@@ -1,0 +1,14 @@
+{
+  "name": "unblocked-arcade",
+  "version": "1.0.0",
+  "description": "Unblocked arcade site with Ultraviolet proxy backend.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@tomphttp/bare-server-node": "^2.0.4",
+    "@titaniumnetwork-dev/ultraviolet": "^3.1.2",
+    "express": "^4.19.2"
+  }
+}
