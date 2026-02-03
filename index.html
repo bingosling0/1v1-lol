@@ -202,18 +202,10 @@
       return `${prefix}service/${encodeURIComponent(targetUrl)}`;
     };
 
-    let serviceWorkerReady = Promise.resolve(false);
-
-    const launchProxy = async (rawUrl) => {
+    const launchProxy = (rawUrl) => {
       const url = normalizeUrl(rawUrl);
       if (!url) {
         proxyStatus.textContent = 'Enter a valid URL to launch.';
-        proxyStatus.dataset.state = 'error';
-        return;
-      }
-      const swReady = await serviceWorkerReady;
-      if (!swReady) {
-        proxyStatus.textContent = 'Ultraviolet service worker is not ready yet.';
         proxyStatus.dataset.state = 'error';
         return;
       }
@@ -232,21 +224,16 @@
         proxyStatus.textContent = 'Service workers are not supported in this browser.';
         proxyStatus.dataset.state = 'error';
         updateIndicator('Unsupported');
-        return false;
+        return;
       }
 
       try {
         await navigator.serviceWorker.register('/uv/uv.sw.js', { scope: '/' });
-        await navigator.serviceWorker.ready;
-        proxyStatus.textContent = 'Ultraviolet service worker ready.';
-        proxyStatus.dataset.state = 'success';
         updateIndicator(getUvConfig() ? 'Detected' : 'Ready');
-        return true;
       } catch (error) {
         proxyStatus.textContent = 'Failed to register Ultraviolet service worker.';
         proxyStatus.dataset.state = 'error';
         updateIndicator('Offline');
-        return false;
       }
     };
 
@@ -270,7 +257,7 @@
       });
     });
 
-    serviceWorkerReady = registerServiceWorker();
+    registerServiceWorker();
   </script>
 </body>
 </html>
